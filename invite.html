@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Open Awake App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+<h1>Opening Awake...</h1>
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const wakeparkId = params.get("wakeparkId");
+    const role = params.get("role");
+
+    const deeplink = `awake://invite?wakeparkId=${wakeparkId}&role=${role}`;
+    const fallback = {
+        ios: "https://apps.apple.com/app/idYOUR_APP_ID",
+        android: "https://play.google.com/store/apps/details?id=YOUR_PACKAGE_NAME",
+    };
+
+    window.location.href = deeplink;
+
+    setTimeout(() => {
+        const ua = navigator.userAgent || navigator.vendor;
+        if (/android/i.test(ua)) {
+            window.location.href = fallback.android;
+        } else if (/iPad|iPhone|iPod/.test(ua)) {
+            window.location.href = fallback.ios;
+        }
+    }, 1500);
+</script>
+</body>
+</html>
